@@ -14,7 +14,7 @@
 # не должна быть линейной
 
 def create_person():
-    data = open('file.txt', 'a')
+    data = open('file.txt', 'a', encoding='utf-8')
     name = str(input("Введите имя: " ))
     patronymic = str(input("Введите отчество: "))
     last_name = str(input("Введите фамилию: "))
@@ -24,14 +24,14 @@ def create_person():
 
 def show_all():
     path = 'file.txt'
-    data = open('file.txt', 'r')
+    data = open('file.txt', 'r', encoding='utf-8')
     for line in data:
         print(line)
     data.close()
 
 def search():
     path = 'file.txt'
-    data = open('file.txt', 'r')
+    data = open('file.txt', 'r', encoding='utf-8')
     res = str(input("Введите поисковые данные: "))
     for line in data:
         if res in line:
@@ -40,7 +40,7 @@ def search():
     return print
 
 def delete():
-    with open('file.txt', "r") as file:
+    with open('file.txt', "r",encoding='utf-8') as file:
         temp = file.readlines()
         inp = str(input("Введите поисковые данные: "))
         res = []
@@ -54,21 +54,31 @@ def delete():
         file.writelines(res)
 
 def change():
-    with open('file.txt', "r") as file:
+    with open('file.txt', "r", encoding='utf-8') as file:
         temp = file.readlines()
         inp = str(input("Введите изменяемое значение: "))
         res = []
         for line in temp:
             if inp in line:
-                print(line)
-                res.append(line.replace(inp,str(input("Введите новое значение: "))))
+                if input(f'Здесь заменить? {line} д - да, н - нет  ') == 'д':
+                    res1 = ''
+                    list_1 = line.split()
+                    index_inp = list_1.index(inp)
+                    list_1[index_inp] = input("Введите новое значение: ")
+                    for i in list_1:
+                        res1 += str(i)
+                        res1 += ' '
+                    res.append(res1 + '\n')
+                else:
+                    res.append(line)
             else:
                 res.append(line)
 
-    with open('file.txt', "w") as file:
+    with open('file.txt', "w", encoding='utf-8') as file:
         file.writelines(res)
 
-n = int(input("1 - вывод данных\n2 - добавление\n3 - поиск\n4 - удаление\n5 - изменение\n"))
+
+n = int(input("Выберите дествие:\n1 - показать справочник\n2 - добавить абонента\n3 - поиск абонента\n4 - удаление абонента\n5 - изменение абонента\n"))
 if n == 1: 
     show_all()
 elif n == 2: 
