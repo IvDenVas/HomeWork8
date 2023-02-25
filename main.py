@@ -1,27 +1,14 @@
-# Создать телефонный справочник с 
-# возможностью импорта и экспорта данных в 
-# формате .txt. Фамилия, имя, отчество, номер 
-# телефона - данные, которые должны находиться 
-# в файле.
-# 1. Программа должна выводить данные
-# 2. Программа должна сохранять данные в 
-# текстовом файле
-# 3. Пользователь может ввести одну из 
-# характеристик для поиска определенной 
-# записи(Например имя или фамилию 
-# человека)
-# 4. Использование функций. Ваша программа 
-# не должна быть линейной
+
 
 def create_person():
     data = open('file.txt', 'a', encoding='utf-8')
+    last_name = str(input("Введите фамилию: "))
     name = str(input("Введите имя: " ))
     patronymic = str(input("Введите отчество: "))
-    last_name = str(input("Введите фамилию: "))
     number = str(input("Введите номер телефона: "))
     data.write(last_name + ' ' + name + ' ' + patronymic + ' ' + number + '\n')
     data.close()
-
+    
 def show_all():
     path = 'file.txt'
     data = open('file.txt', 'r', encoding='utf-8')
@@ -42,7 +29,7 @@ def search():
 def delete():
     with open('file.txt', "r",encoding='utf-8') as file:
         temp = file.readlines()
-        inp = str(input("Введите поисковые данные: "))
+        inp = str(input("Найти и удалить по: "))
         res = []
         for line in temp:
             if inp not in line:
@@ -50,13 +37,13 @@ def delete():
             else:
                 print(f'Удалено: {line}')
 
-    with open('file.txt', "w") as file:
+    with open('file.txt', "w", encoding='utf-8') as file:
         file.writelines(res)
 
 def change():
     with open('file.txt', "r", encoding='utf-8') as file:
         temp = file.readlines()
-        inp = str(input("Введите изменяемое значение: "))
+        inp = str(input("Найти и изменить по: "))
         res = []
         for line in temp:
             if inp in line:
@@ -69,6 +56,7 @@ def change():
                         res1 += str(i)
                         res1 += ' '
                     res.append(res1 + '\n')
+                    print(f'Готово: {line} -> {res1}')
                 else:
                     res.append(line)
             else:
@@ -77,15 +65,17 @@ def change():
     with open('file.txt', "w", encoding='utf-8') as file:
         file.writelines(res)
 
+def choose_action():
+    n = int(input("Выберите дествие:\n1 - показать справочник\n2 - добавить абонента\n3 - поиск абонента\n4 - удаление абонента\n5 - изменение абонента\n"))
+    if n == 1: 
+        show_all()
+    elif n == 2: 
+        create_person()
+    elif n == 3: 
+        search()
+    elif n == 4: 
+        delete()
+    elif n == 5:
+        change()
 
-n = int(input("Выберите дествие:\n1 - показать справочник\n2 - добавить абонента\n3 - поиск абонента\n4 - удаление абонента\n5 - изменение абонента\n"))
-if n == 1: 
-    show_all()
-elif n == 2: 
-    create_person()
-elif n == 3: 
-    search()
-elif n == 4: 
-    delete()
-elif n == 5:
-    change()
+choose_action()
